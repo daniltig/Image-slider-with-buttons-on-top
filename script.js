@@ -1,5 +1,5 @@
-/*const sections = document.querySelectorAll(".flippingThroughSlides");
-let selectEl = selectFlippingThroughButton;*/
+/*const sections = document.querySelectorAll(".flippingThroughSlides");*/
+let selectEl;
 
 /*(function (){
    let iterator = 0;
@@ -29,6 +29,26 @@ class HelloDiv extends HTMLDivElement {
 
       function onAppend (parentElement, f) {
          console.log("this.children", parentElement.children);
+         const sections = document.querySelectorAll(".flippingThroughSlides");
+         for (let iterator = 0; iterator < parentElement.children.length; iterator++) {
+            f(parentElement.children[iterator].id)
+            let but = document.createElement("button"); // создание кнопок
+            containerForButtons1.appendChild(but) // добавление кнопок в интерфейс
+            but.classList.add("flippingThroughButtons");
+            but.onclick = function (event, _iterator=iterator) { // добавляем событие click
+               let thisEl = event.target; // определяем элемент, по которому кликнули
+               sections[_iterator].scrollIntoView({inline: "start", behavior: "smooth"});
+
+               selectEl.classList.toggle("clickFlippingThroughButton");
+               thisEl.classList.toggle("clickFlippingThroughButton");
+
+               selectEl = thisEl;
+            }
+         }
+         containerForButtons1.children[0].classList.add("clickFlippingThroughButton");
+         selectEl = containerForButtons1.children[0];
+
+
          var observer = new MutationObserver(function(mutations) {
             console.log("mutations>", mutations)
             console.log("this.children", parentElement.children);
@@ -36,7 +56,7 @@ class HelloDiv extends HTMLDivElement {
                f(parentElement.children[iterator].id)
                let but = document.createElement("button"); // создание кнопок
                containerForButtons1.appendChild(but) // добавление кнопок в интерфейс
-               but.classList.add("flippingThroughSlides");
+               but.classList.add("flippingThroughButtons");
             }
 
             /*let iterator = 0;
