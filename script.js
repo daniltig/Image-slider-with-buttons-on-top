@@ -1,25 +1,5 @@
 const sections = document.querySelectorAll(".flippingThroughSlides");
 let selectEl = selectFlippingThroughButton;
-/*let currentSection = 0;
-
-div0.addEventListener('wheel', function(e) {
-   e.preventDefault();
-
-
-
-   if (e.deltaY < 0) {
-      if (0 < currentSection){
-         currentSection--;
-      }
-   }
-   else {
-      if (currentSection < (sections.length - 1)){
-         currentSection++;
-      }
-   }
-
-   sections[currentSection].scrollIntoView({inline: "start", behavior: "smooth"});
-});*/
 
 (function (){
    let iterator = 0;
