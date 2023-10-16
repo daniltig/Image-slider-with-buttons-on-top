@@ -6,44 +6,33 @@ class HelloDiv extends HTMLDivElement {
       super();
    }
    connectedCallback() {
-      function onAppend (parentElement, f) {
+      var observer = new MutationObserver(function(mutations) {
+         const sections = document.querySelectorAll(".divWithFlippingThroughSlides");
          //console.log("this.children", parentElement.children);
-         const sections = document.querySelectorAll(".flippingThroughSlides");
-         for (let iterator = 0; iterator < parentElement.children.length; iterator++) {
-            f(parentElement.children[iterator].id)
-            let but = document.createElement("button"); // создание кнопок
-            containerForButtons1.appendChild(but) // добавление кнопок в интерфейс
-            but.classList.add("flippingThroughButtons");
-            but.onclick = function (event, _iterator=iterator) { // добавляем событие click
-               let thisEl = event.target; // определяем элемент, по которому кликнули
-               sections[_iterator].scrollIntoView({inline: "start", behavior: "smooth"});
 
-               selectEl.classList.toggle("clickFlippingThroughButton");
-               thisEl.classList.toggle("clickFlippingThroughButton");
-
-               selectEl = thisEl;
-            }
-         }
-         containerForButtons1.children[0].classList.add("clickFlippingThroughButton");
-         let selectEl = containerForButtons1.children[0];
-
-
-         var observer = new MutationObserver(function(mutations) {
-            //console.log("mutations>", mutations)
-            //console.log("this.children", parentElement.children);
-            for (let iterator = 0; iterator < parentElement.children.length; iterator++) {
-               f(parentElement.children[iterator].id)
+         for(let num of sections){
+            const sections = document.querySelectorAll(".flippingThroughSlides");
+            for (let iterator = 0; iterator < num.children.length; iterator++) {
+               //f(num.children[iterator].id)
                let but = document.createElement("button"); // создание кнопок
                containerForButtons1.appendChild(but) // добавление кнопок в интерфейс
                but.classList.add("flippingThroughButtons");
-            }
-         })
+               but.onclick = function (event, _iterator=iterator) { // добавляем событие click
+                  let thisEl = event.target; // определяем элемент, по которому кликнули
+                  sections[_iterator].scrollIntoView({inline: "start", behavior: "smooth"});
 
-         observer.observe(parentElement, {childList: true, subtree: false})
-      }
-      onAppend(this.querySelector(".divWithFlippingThroughSlides"), function(added) {
-         console.log("added>", added);
+                  selectEl.classList.toggle("clickFlippingThroughButton");
+                  thisEl.classList.toggle("clickFlippingThroughButton");
+
+                  selectEl = thisEl;
+               }
+            }
+            containerForButtons1.children[0].classList.add("clickFlippingThroughButton");
+            let selectEl = containerForButtons1.children[0];
+         }
       })
+
+      observer.observe(this, {childList: true, subtree: false})
    }
 }
 customElements.define('hello-div', HelloDiv, {extends: 'div'});
